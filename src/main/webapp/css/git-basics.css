@@ -1,0 +1,6 @@
+body {
+	color: #a7cc99;
+	background: #7bb366;
+	background: -webkit-radial-gradient(10% 30%, circle farthest-corner, #7bb366, rgb(0, 0, 0));
+	-webkit-font-smoothing: antialiased;
+}

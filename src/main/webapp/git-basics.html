@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+
+<!--
+	Git : Foundations
+	Justin Grant(C) 2012
+-->
+
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>Git: Foundations</title>
+<link href='images/favicon.ico' rel='shortcut icon' type='image/x-icon'>
+<link rel="stylesheet" href="css/font.css" />
+<link rel="stylesheet" href="css/default.css" />
+<link rel="stylesheet" href="css/git-basics.css" />
+<script type="text/javascript" src="javascript/index-rollover.js"></script>
+
+
+</head>
+<body class="impress-not-supported">
+
+
+	<!--
+	    For example this fallback message is only visible when there is `impress-not-supported` class on body.
+	-->
+	<div class="fallback-message hidden">
+		<p>
+			Your browser <b>doesn't support the features required</b> by
+			impress.js, so you are presented with a simplified version of this
+			presentation.
+		</p>
+		<p>
+			For the best experience please use the latest <b>Chrome</b>, <b>Safari</b>
+			or <b>Firefox</b> browser.
+		</p>
+	</div>
+
+	<div id="impress">
+		<div id="title" class="step">
+			<div id="test">
+				<div id="git-logo2-white-bg">
+					<div id="git-logo2"></div>
+				</div>
+				<div id="title-text">
+					<h1 class="title-text-major">Foundations</h1>
+					<span class="title-text-minor">Justin Grant</span>
+				</div>
+			</div>
+			<div class="notes">
+				<p>Preparation - please have the following things open:</p>
+				<ul>
+					<li>TotalTerminal (will popup the terminal when needed)</li>
+					<li>GitTraining (<a
+						href="https://github.com/jlgrock/gitTraining">https://github.com/jlgrock/gitTraining</a>)
+					</li>
+				</ul>
+			</div>
+		</div>
+
+
+		<div id="naturalEvolution" class="step">
+			<h1>Natural Evolution</h1>
+			<h2>RCS</h2>
+			<div class="notes">
+				<p>Who remembers RCS? I'm going to bet it's a small number of
+					people.</p>
+
+				<p>RCS was a simple version control system that would keep a
+					timestamp and a version for each file. The expectation was that you
+					were dealing with small builds and there wasn't much to do other
+					than keep track of your handful of files. Once projects got big
+					enough to have many files, it became very difficult to check in
+					files one at a time using RCS. So, a wrapper to this was created to
+					handle checking in files en masse.</p>
+			</div>
+		</div>
+
+		<div id="naturalEvolution2" class="step">
+			<h1>Natural Evolution</h1>
+			<h2>CVS</h2>
+			<div class="notes">
+				<p>CVS, the wrapper for RCS, works well enough. We eventually
+					found that, much like FTP, there is a lack of security and it can't
+					keep track of file rollbacks/deletions very well. For example, if
+					you have a file "folder1/abc.java" and you delete it, there is very
+					little to be able to determine what was there before it was
+					deleted, as the server stores this in an "abc.java" delta file,
+					which it then deletes. Also, if you moved "abc.java" from "folder1"
+					to "folder2", it essentially deletes one file and creates it in
+					another place, essentially destroying any history.</p>
+			</div>
+		</div>
+
+		<div id="naturalEvolution3" class="step">
+			<h1>Natural Evolution</h1>
+			<h2>Subversion, CVSNT</h2>
+			<div class="notes">
+				<p>Enter SubVersion. Everyone here should be familiar with
+					SubVersion. First thing, security was increased. SSL and SSH were
+					built in natively, allowing for extremely secure connections. Also,
+					where CVS keeps losing track of files and versioning because it
+					keeps the versioning within each file on the server, subversion
+					applies a version to the entire repository. If you check in
+					"abc.java", the entire repository updates the version to "2.3.758"
+					(or something like that) and can immediately tell you when you are
+					out of sync. This way, even if you move a file (though it has do be
+					done correctly, via the refactor/move commands), it will retain the
+					entire history of a moved or deleted file. Also, you never have to
+					worry about "abc.java" is on v2.3 but "def.java" is on v2.4 -
+					because the versions are cross-cutting.</p>
+
+				<p>This worked great and still works great. Subversion is
+					releasing still and people use it all the time. But it still has
+					some problems in our mobile development world. First, What if you
+					are on a long flight or in an institution where internet is
+					unaccessable and you need to work on files - at the end, you might
+					have to deal with a painful merge. Or, you may not have access to
+					history, due to lack of connection to the server. Also, server
+					replication between sites became painful, although still usable.</p>
+			</div>
+		</div>
+
+		<div id="naturalEvolution4" class="step">
+			<h1>Natural Evolution</h1>
+			<h2>DCVS (Git, Mercurial, etc.)</h2>
+			<div class="notes">
+				<h3>So why use Distributed Concurrent Versions Systems?</h3>
+				<p>First, it's got a small footprint. Using SHA-1 (a
+					cryptographic hash function), git compares files and only keeps
+					differences. So, just because you made a tag, it doesn't mean that
+					everything needs to be copied. It's just a pointer to a position.
+					Developers should appreciate that and think of this much like a
+					Linked-List pointer. A simple file structure in Git or Mercurial
+					will be easily half the size of a Subversion repository. And that's
+					if you don't count branches or tags.</p>
+				<h3>Your repository is local.</h3>
+				<p>What does this mean to you? It means that start using a
+					repository, I don't have to contact IT. When I have no internet and
+					I need to look through the history of a file, I can do that. When I
+					need to make frequent checkins or rollbacks, I can do that. Also,
+					if I want to synchronize with someone else, and we have no
+					repository, we can do that. Need to check out a tag? You don't need
+					access to the server for that. Also, that means that if there is
+					catastrophic failure, I can work with others directly to get all
+					the latest code.</p>
+				<p>
+				<h3>It's Fast</h3>
+				<p>Because of the fact that DCVS is keeping very tiny changes
+					and keeping them indexed well, it is really fast. If you check
+					statistics, you'll find that these tend to be an order of magnitude
+					faster for all tasks, including initialization, commits, branching,
+					and even running diffs.</p>
+				<p>
+				<h3>It's Here</h3>
+				<p>Not only has Git become the goto for C/C++/Java developers,
+					but is in use for a bunch of other languages as well. It has become
+					the default SCM in the new version of Eclipse/STS. It is available
+					in the world wide web via GitHub, Gitoreus and other similar
+					websites, and it even has tools that plug directly into your
+					operating system so you can version files of any type. It's also
+					available locally. Plus, whether the company wants you to use it or
+					not (luckily ours has been more than accomidating), you can use Git
+					locally. You don't even need a server anymore for version control.
+					Also, using the git-svn bridge, you can use Git with Subversion.
+					This gives you many of the advantages of Git in your current
+					environment.</p>
+			</div>
+		</div>
+
+		<div id="settingUp" class="step" data-x="1500" data-y="1500"
+			data-rotate="90">
+			<h1>Setting Up Your Environment</h1>
+			<h3>3 Options</h3>
+			<ul>
+				<li><a
+					href="http://git-scm.com/book/en/Getting-Started-Installing-Git">Step-By-Step</a>
+					for each OS
+				<li><a href="http://git-scm.com/downloads">Download the
+						binary</a> (Make sure to be on 1.8+)
+				<li>If you aren't sure you want to install, <a
+					href="http://try.github.com/levels/1/challenges/1">Give it a
+						Try!</a>
+			</ul>
+			<div class="notes">
+				<p>OK, this was a prerequisite to the presentation, so this
+					slide is on here mostly for the folks that viewing this on their
+					own.</p>
+				<p>Also, side note to those that didn't upgrade, I'd suggest you
+					be on version 1.8+ - it has the ability to cache credentials for
+					all clients. Also, they are changing how outgoing repository
+					tracking is working, and this allows you to set a configuration to
+					keep this as your desired usage.</p>
+			</div>
+		</div>
+
+		<div id="configYourEnvironment" class="step" data-x="1500"
+			data-y="-1500">
+			<h1>Setting Up Your Environment</h1>
+			<h3>git config</h3>
+			<p class="l2">
+			<ul>
+				<li>System - e.g. /usr/local/git/1.7.x/etc/git</li>
+				<li>Global <i>(overrides System)</i> - by default, stored in
+					user home directory
+				</li>
+				<li>Local <i>(overrides Global)</i> - Project specific, this is
+					stored in the .git folder
+				</li>
+			</ul>
+			<h3>Common Commands:</h3>
+			<div class="code">
+				<script src="https://gist.github.com/4035398.js?file=gistfile1.txt"></script>
+			</div>
+
+			<div class="notes">
+				<p>To continue, you must set up your username and email. This is
+					necessary as these strings are stored with every commit. I'd also
+					like to note that user.name is NOT tied to
+					authentication/authorization. Authorization was kept entirely
+					separate to guarantee interoperability.</p>
+
+				<p>Past that, these others are just some of the more useful
+					ones:</p>
+				<ul>
+					<li>push.default - I suggest setting this to "simple". This is
+						something that was found to be a bad design decision, so this is
+						new to version 1.8. This comes to play if you have multiple remote
+						repositories. If you set this to simple, it will only send your
+						changes to one server at a time. Depending on your workflow, this
+						may be different though. For most subversion users, though, the
+						logical one is "simple."</li>
+					<li>http.sslVerify - disables SSL Certificate Checks for Git</li>
+					<li>color.ui - lets you see colors in your command prompt
+						(like you will see on mine), but will keep those out of commit
+						messages and the like.</li>
+					<li>core.editor - lets you specify the default editor,
+						similarly you can adjust your default diff tool</li>
+				</ul>
+			</div>
+		</div>
+
+		<div id="additionalConfigEnvironment" class="step" data-x="1500"
+			data-y="-1500" data-z="5">
+			<h1>Setting Up Your Environment</h1>
+			<h3>See your current commands:</h3>
+			<p>
+				<span class="console">git config -e --global</span>
+			</p>
+			<h3>More Commands:</h3>
+			<p>
+				<a
+					href="http://git-scm.com/book/en/Customizing-Git-Git-Configuration">Customizing
+					Git</a>
+			<div class="notes">
+				<p>To see the list of current configurations, use "git config
+					-e" and specify the scope. If you don't specify the scope, this
+					defaults to global. This throws you into your configuration file
+					and you can see and edit what's currently been set.</p>
+			</div>
+		</div>
+
+		<div id="settingUpRepositories" class="step" data-x="-1500"
+			data-y="-1500" data-scale="2" data-z="200">
+			<h2>Create a Repository</h2>
+			<p>
+				<span class="console">git init</span>
+			</p>
+			<p>OR</p>
+			<p>
+				<span class="console">git init --bare</span>
+			</p>
+			<br />
+			<h2>Clone a Repository</h2>
+			<p>
+				<span class="console">git clone &lt;url&gt;</span>
+			</p>
+
+			<div class="notes">
+				<p>Time for your first commands:
+				<ul>
+					<li>"git init - creates a fresh repository</li>
+					<li>"git init --bare" - creates a fresh repository with NO
+						Working directory. This is useful for servers or "blessed
+						repositories."</li>
+					<li>"git clone &lt;url&gt;" - Will copy of a repository to
+						your local computer. This includes all history on the tracked
+						branches. What this means is that you need to tell Git what to
+						track. By default, it will track anything you've set up, but not
+						everything. For that you'll have to do a little more legwork. This
+						will be covered in a little more detail later.</li>
+				</ul>
+				<p>
+					We are going to start by cloning a repository (found at<a
+						href="https://github.com/jlgrock/gitTraining">https://github.com/jlgrock/gitTraining</a>).
+					Run the "git clone command" with the url provided on this page.
+			</div>
+		</div>
+
+
+
+		<div id="differentEnvironmentsOnTheSameMachine" class="step"
+			data-x="-1500" data-y="1500" data-rotate="180" data-z="-100">
+			<h2>Different Environments - Same Machine</h2>
+			<div class="horizontal-center">
+				<img alt="Local Repository" src="images/git-local.png">
+			</div>
+			<div class="notes">
+				<p>
+					There are three environments <i>on your local computer</i>. I want
+					to make this very clear, as you don't really need to worry about
+					external repositories quite yet. The repository and staging area
+					aren't directly accessable to you. You need to use the git commands
+					to make any changes to those environments. If you want to make a
+					change in your working directory, this is essentially the files
+					that are accessible to you on your file system. Go about your
+					business and edit your files.
+				</p>
+				<p>In this example, I'm going to adjust the files from the clone
+					that we did in the last slide. Create a file "MessyRoom.txt" in the
+					poems folder. If you make a change to a file, it is done in your
+					working directory.</p>
+
+				<p>Add a file called "TimeFlies.txt" with the following content:</p>
+
+				<p>
+					<b>Time Flies (Limerick)</b> <br />By Madeleine Begun Kane
+				</p>
+				<p>“Time flies” is a popular phrase. So it does, and in
+					frightening ways. Where’s it go? I don’t know. And there’s no way
+					to slow It all down. Simply relish the days.</p>
+
+				<p>remember from one of the previous slides "git init --bare"
+					has no Working directory, so this is only applicable to your local
+					computer.
+			</div>
+		</div>
+
+		<div id="addToYourIndex" class="step" data-x="1500" data-y="3000">
+			<h2>Checking the Status</h2>
+			<p>
+				<span class="console">git status</span>
+			</p>
+			<p>OR</p>
+			<p>
+				<span class="console">git status -s</span>
+			</p>
+
+			<h2>Add the File to Your Index</h2>
+			<p>
+				<span class="console">git add &lt;file&gt;</span>
+			</p>
+
+			<h2>Commiting Your Changes</h2>
+			<p>
+				<span class="console">git commit -m"&lt;message&gt;"</span>
+			</p>
+			<p>OR</p>
+			<p>
+				<span class="console">git commit -a -m"&lt;message&gt;"</span>
+			</p>
+
+			<div class="notes">
+				<h3>Status</h3>
+				<p>run a "git status" to see the current repository's status.
+					You'll see that it shows that there are changes in your working
+					directory that need to be staged. You can also run the "git status
+					-s" to see the short version, if you don't want to see the
+					extraneous messages (because you have seen them thousands of
+					times).</p>
+				<h3>Adding</h3>
+				<p>OK, assuming this is a change that you are going to want, you
+					move this file into your index using the "git add". Similarly,
+					there is a "git rm" command, should you desire to remove it from
+					your index.</p>
+				<p>Once you have completed the add, do a "git status" again, and
+					you'll notice that the message has changed. There's a section that
+					says "Changes to be committed", which indicates the files in your
+					Staging area. Now, make another change to "TimeFlies.txt" (that's
+					not just whitespace changes). When you do a "git status" now, you
+					should see that you now have staged some changes for a commit, but
+					there are more in your working directory that have to be added.</p>
+				<p>Go ahead and add those changes and check the status
+					afterwards.</p>
+				<h3>Committing</h3>
+				<p>Now that you've made your changes, it's time to commit. Using
+					the "git commit" command, this will commit any staged files that
+					you changed to your local repository - remember this is local to
+					your computer. Since you haven't given this to anyone yet, you
+					don't have to worry so much about breaking anyone elses code before
+					committing.</p>
+				<p>The "git commit -a" command is useful if you are making quick
+					changes to files you have already added before (and thus are
+					"tracked"). You will find this useful as you start developing
+					quickly with Git. This is not a wholesale replacement or wildcard
+					for adding, though. Please don't attempt to use it as such.</p>
+			</div>
+			<p>
+		</div>
+		<div id="commitResponseAndHowGitTracks" class="step" data-x="1500"
+			data-y="3000">
+			<h3>Review of The Response</h3>
+			<div class="code">
+				<script src="https://gist.github.com/4075882.js?file=gistfile1.txt"></script>
+			</div>
+			<h3>How Git Does File Tracking</h3>
+			<ul>
+				<li>Whitespace Ignored</li>
+				<li>Timestamps Ignored</li>
+			</ul>
+
+			<div class="notes">
+				<h3>CommitResponse</h3>
+				<p>This contains:</p>
+				<ul>
+					<li>"master" - The current branch</li>
+					<li>"root-commit" -</li>
+					<li>"87c1a9d" - SHA checksum</li>
+					<li>"myMessage" - The comment provided with the commit</li>
+					<li># of files changed</li>
+					<li># of lines added</li>
+					<li># of lines removed</li>
+					<li>the file permissions of the file combined with the type of
+						file</li>
+				</ul>
+				<h3>How Git Tracks</h3>
+				<p>Git does a SHA-1 hash on the file contents, so you can run
+					the "touch" command. This will trigger Subversion (at least the
+					older versions) to need to commit changes to the file, as this
+					updates timestamp.
+				<p>In Git, the tracking is oblivious to whitespace and
+					timestamps entirely. Running a "git status" shows no differences.</p>
+			</div>
+		</div>
+
+		<div id="switchingToBranchesOrTags" class="step" data-x="-3000"
+			data-y="-3000">
+			<h1>Branching/Tagging in Git</h1>
+			<h3>Create a Branch/Tag</h3>
+			<p>
+				<span class="console">git &lt;tag|branch&gt; &lt;name of
+					tag/branch&gt;</span>
+			</p>
+
+			<h3>View list of Branches/Tags</h3>
+			<p>
+				<span class="console">git &lt;tag|branch&gt;</span>
+			</p>
+
+			<h3>Switch to a Branch/Tag</h3>
+			<p>
+				<span class="console">git checkout &lt;name of branch/tag&gt;</span>
+			</p>
+
+			<h3>Remove a Branch/Tag</h3>
+			<p>
+				<span class="console">git &lt;tag|branch&gt; -d &lt;name of
+					branch/tag&gt;</span>
+			</p>
+
+			<div class="notes">
+				<p>Now that I've told you how easy it is to make changes in Git,
+					you are going to immediately start checking in a bunch of changes
+					and find that you've gone in the wrong direction on something and
+					need to roll back. It's a fairly common problem.
+				<p>Git is designed for easy switching of tasks. It encourages
+					you to branch. And since branching is so easy, I encourage you do
+					do it for everything. Every little bug or user story that you run
+					accross. Make a branch for it. They are easy to make and leave such
+					a little footprint that you won't even care that they are around.
+				<p>"How do I create a branch?" - You might ask... Easy "git
+					branch " + the name of the branch.</p>
+				<p>"Then how do I switch to it?" - type the "git checkout " +
+					the name of the branch.</p>
+				<p>For a list of all known branches (on your computer, not
+					remotely), just type in "git branch" with no name following it.</p>
+				<p>Open Eclipse - show files. Now looking for the only branch in
+					this repository. Switch to it. You'll notice now that when I open
+					files, they need to be refreshed. This is because Git changes what
+					the Working Directory is pointing to. It now points to the
+					reference in the branch and changes layered on top of that.
+				<p>Switching to a branch moves all of the files in your Working
+					Directory and Staging and lays them over top the new repository
+					view. (Show an example of this.) This makes it quite nice, since
+					you can decide midway through changes that you need a branch for
+					this.</p>
+				<p>If you are done with it, you can do a "git branch -d" to
+					delete the branch/tag</p>
+			</div>
+		</div>
+
+
+		<div id="merging" class="step" data-x="3000" data-y="-1500">
+			<h2>Merging</h2>
+			<p>
+				<span class="console">git merge &lt;name of branch/tag&gt;</span>
+			</p>
+			<h2>Merge Conflicts</h2>
+			<div class="code">
+				<script src="https://gist.github.com/4076005.js?file=gistfile1.txt"></script>
+			</div>
+			<h2>MergeTool</h2>
+			<p>
+				<span class="console">git mergetool</span>
+			</p>
+			<div class="notes">
+				<p>Once you have done some work in the branch, you are ready to
+					merge these changes back. This is much easier that was with other
+					SCMs (especially, older versions of Subversion, for example).
+				<p>Run "git checkout master" to switch back to the master branch
+					(you can use any branch, but this is common enough), then run the
+					command "git merge " + the name of the branch to merge in.
+				<p>You don't have to tell the system where to merge from. It
+					will determine where the last common shared code was and use that
+					as the starting point. At this point it will start automatically
+					merging files that don't have line conflicts. If there are line
+					conflicts, it will flag them for you to merge manually.</p>
+				<p>If you need to merge manually, just use the mergetool
+					command. This is also built into most IDEs, and the diff/merge is a
+					standard, so you can find any number of tools that will help in
+					that regard. Just do a google search for "mergetool" or "difftool"
+					and you can find out pretty easily how to set up your favorite to
+					link to those commands.
+			</div>
+		</div>
+
+		<div id="resetting" class="step" data-x="3000" data-y="1500">
+			<h2>Resetting</h2>
+			<p>
+				<span class="console">git reset HEAD</span>
+			</p>
+			<p>OR</p>
+			<p>
+				<span class="console">git reset --hard HEAD</span>
+			</p>
+
+			<div class="notes">
+				<p>Every now and again, your files get a little out of whack.
+					Luckily, if you've been doing what you were supposed to with the
+					branching, you can just blow the branch away and rebranch from the
+					starting point that you want.</p>
+				<p>Sometimes, this isn't quite so easy though. Either you've
+					been working in the master branch, which can't really be blown
+					away, or you are having a hard time merging into the master branch
+					Note that you can merge into another branch - which is also
+					suggested, as if things go wrong, you can blow it away as well. But
+					I know we aren't all branch-happy yet.
+			</div>
+		</div>
+
+		<div id="ignoringFiles" class="step" data-x="0" data-y="-3000">
+			<h2>Git Ignore</h2>
+			<div class="code">
+				<script src="https://gist.github.com/4076157.js?file=gistfile1.txt"></script>
+			</div>
+			<h2>Git Ignore Templates (By Language)</h2>
+			<p>
+				<a href="https://github.com/github/gitignore">https://github.com/github/gitignore</a>
+			<div class="notes">
+
+				<p>I would suggest combining based on development environment
+					and language</p>
+			</div>
+		</div>
+
+		<div id="WorkingWithRemotes" class="step" data-x="-3000" data-y="1500">
+			<h1>Working With Remotes</h1>
+			<div class="horizontal-center">
+				<img alt="Local/Remote Repositories" src="images/git-local-remote.png">
+			</div>
+
+
+			<div class="notes">
+				<p>Everyone says that there is no master repository in DCVS.
+					These folks are either delusional or trying to pick a fight. We all
+					know that at some point we need to push back to some master. Linus
+					Torvalds (the creator of Linux/Git) calls it the "Blessed
+					Repository". You can call it whatever you want, because there is no
+					difference between that and another repository created on your
+					computer.</p>
+				<p>Realistically, we need to send these files to and from this
+					repository. Check your current remotes. The "-v" is optional, but I
+					use it to demonstrate that you can have different servers that you
+					get updates from and send updates to.</p>
+			</div>
+		</div>
+
+		<div id="WorkingWithRemotes2" class="step" data-x="-3000"
+			data-y="1500">
+			<h1>Working With Remotes (cont.)</h1>
+			<h3>Checking Remotes</h3>
+			<p>
+				<span class="console">git remote -v</span>
+			</p>
+			<h3>Add a Remote</h3>
+			<p>
+				<span class="console">git remote add &lt;repositoryName&gt;
+					&lt;path&gt;</span>
+			</p>
+			<h3>Fetching Changes</h3>
+			<p>
+				<span class="console">git fetch &lt;repositoryName&gt;</span>
+			</p>
+			<h3>Merging Changes</h3>
+			<p>
+				<span class="console">git merge &lt;repositoryName&gt;
+					&lt;branch&gt; </span>
+			</p>
+
+			<div class="notes">
+				<p>If you initialized the repository on your local computer, use
+					the "git remote add" command. This will define one (or more) remote
+					repositories for you to push/pull to. If you cloned, the "origin"
+					is set automatically for you, though you can change it at any time,
+					using the same method.
+				<p>Once you have specified where the repository needs to
+					get/send the changes to/from, first, use the "git fetch" command.
+					You should always update your code before trying to submit yours.</p>
+				<p>Fetching creates a temporary branch for you to merge with
+					called "FETCH_HEAD". You can merge with this branch and merge it in
+					using the "git merge" command.</p>
+			</div>
+		</div>
+
+		<div id="WorkingWithRemotes3" class="step" data-x="-3000"
+			data-y="1500">
+			<h1>Working With Remotes (cont.)</h1>
+			<h3>Pulling Changes</h3>
+			<p>
+				<span class="console">git remote add &lt;repositoryName&gt;
+					&lt;path&gt;</span>
+			</p>
+
+			<h3>Pushing changes (-u saves parameters)</h3>
+			<p>
+				<span class="console">git push -u &lt;repositoryName&gt;
+					&lt;branch&gt;</span>
+			</p>
+
+			<div class="notes">
+				<p>OK, so everyone can agree that this gets a little messy with
+					such a common operation, needing to create another branch to merge
+					into every time you need to get changes from a remote repository.
+					So, the command "pull" was made to streamline this. "git pull" will
+					do a fetch, followed by the merge in a branch. If there are no
+					problems with the merge, it's immediately merged back into the
+					branch you are in.</p>
+				<p>Now we are ready to push our merged changes back to the
+					server. ***Note that if you don't do the fetch+merge/pull first,
+					Git will not let you proceed to the push step.*** Run the "git
+					push" will send the commits that you have done to the other
+					repository, be that in the "blessed repository," or the guys
+					computer sitting next to you.</p>
+			</div>
+		</div>
+
+		<div id="Stashing" class="step" data-x="-6000" data-y="6000">
+			<h2>Stashing</h2>
+			<p>
+				<span class="console">git stash</span>
+			</p>
+			<p>OR</p>
+			<p>
+				<span class="console">git stash &lt;stashName&gt;</span>
+			</p>
+			<div class="notes">
+				<p>One of the most useful tools that I have run accross is the
+					ability to "stash". Git makes you unable to do a fetch or pull when
+					you have changes waiting in your Working or Staging environments.
+					This is necessary, because the tools can't let you mix up revision
+					history. It needs clean breaks in coding. Sometimes, you can't wait
+					for this though. If you do a git stash, it will take all of your
+					changes and put them off to the side for later. Then, it will allow
+					you to overlay these files on the working directory again at a
+					later point. That way, you can stash your files off to the side, do
+					your pull, then reapply the stash, getting you the newest changes
+					without having to create a branch and merge it manually.</p>
+			</div>
+		</div>
+
+
+		<div id="CommonTools" class="step" data-x="3000" data-y="1500">
+			<h2>Common Tools for Git</h2>
+			<ul>
+				<li>Supported by all major IDEs (<a
+					href="http://www.eclipse.org/">Eclipse</a>/<a
+					href="http://netbeans.org/">Netbeans</a>/<a
+					href="http://www.jetbrains.com/idea/">IntelliJ IDEA</a>)
+				</li>
+				<li><a href="http://www.sourcetreeapp.com/">Atlassian
+						SourceTree</a> (OSX only)</li>
+				<li><a href="http://code.google.com/p/tortoisegit/">TortoiseGit</a></li>
+				<li><a href="http://msysgit.github.com/">MsysGit</a></li>
+			</ul>
+			<div class="notes">
+				<p>Here are a few tools to help you in your workflow. Although
+					you don't need these, because the command line helps you out, it's
+					unrealistic to think that everyone would be happy with that. These
+					are the more common ones, but there are a bunch more out there.
+			</div>
+		</div>
+
+		<!-- Final slide for zoom out -->
+		<di v id="overview" class="step" data-x="1000" data-y="1500"
+			data-scale="10">
+	</div>
+	</div>
+
+
+	<div class="hint">
+		<p>Use a spacebar or arrow keys to navigate</p>
+	</div>
+
+	<script src="javascript/impress.js"></script>
+	<script type="text/javascript" src="javascript/notes.js"></script>
+	<script>
+		impress().init();
+	</script>
+
+</body>
+</html>
