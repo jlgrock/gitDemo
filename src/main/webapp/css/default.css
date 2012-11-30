@@ -248,9 +248,10 @@ body {
 	margin-right: auto;
 	text-align: center;
 	width: 100%;
+	display: none;
 }
 
-.impress-enabled .hint {
+.impress-enabled {
 	display: block
 }
 

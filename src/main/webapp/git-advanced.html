@@ -7,320 +7,740 @@
 
 <html lang='en'>
 <head>
-	<meta charset='utf-8' />
-	<title>Git: Advanced Features and Utilities</title>
-	<link href='images/favicon.ico' rel='shortcut icon' type='image/x-icon'>
-	<link rel="stylesheet" href="css/font.css" />
-	<link rel="stylesheet" href="css/default.css" />
-	<link rel="stylesheet" href="css/git-advanced.css" />
+<meta charset='utf-8' />
+<title>Git: Advanced Features and Utilities</title>
+<link href='images/favicon.ico' rel='shortcut icon' type='image/x-icon'>
+<link rel="stylesheet" href="css/font.css" />
+<link rel="stylesheet" href="css/default.css" />
+<link rel="stylesheet" href="css/git-advanced.css" />
+<script type="text/javascript" src="javascript/index-rollover.js"></script>
+<link href="/wp-content/uploads/2012/11/favicon.ico" rel="icon"
+	type="image/x-icon" />
 </head>
-<body>
+
+<body class="impress-not-supported">
 	<div id="title" class="step">
 		<h3 class="right">Justin Grant</h3>
-		<div class="notes">
-		</div>
+		<div class="notes"></div>
 	</div>
 
-	<div id="rollingback">
-		http://superuser.com/questions/35267/how-can-i-roll-back-1-commit
-		http://stackoverflow.com/questions/1955985/what-does-the-caret-character-mean-in-git
+	<!--
+	    For example this fallback message is only visible when there is `impress-not-supported` class on body.
+	-->
+	<div class="fallback-message hidden">
+		<p>
+			Your browser <b>doesn't support the features required</b> by
+			impress.js, so you are presented with a simplified version of this
+			presentation.
+		</p>
+		<p>
+			For the best experience please use the latest <b>Chrome</b>, <b>Safari</b>
+			or <b>Firefox</b> browser.
+		</p>
 	</div>
-	<div id="InteractiveRebase" class="step">
-		<h3></h3>
-		
-		Interactive Rebase
-		-------------------
-		git pull --rebase
-		Layer my code changes to the end of someone else's changes.  Note that it doesn't change the timestamps.  It changes the ordered sequence, and layers it on the end.
-		
-		git config branch.autosetuprebase always -> merges should happen very very rarely.
-		
-		example:
-		git rebase -i HEAD~4
-		
+
+	<div id="impress">
+		<div id="title" class="step">
+			<div id="test">
+				<div id="git-logo2-white-bg">
+					<div id="git-logo2"></div>
+				</div>
+				<div id="title-text">
+					<h1 class="title-text-major">Advanced Concepts</h1>
+					<span class="title-text-minor"><i>Presenter: Justin
+							Grant</i></span>
+				</div>
+			</div>
 			<div class="notes">
-			<p>Probably best to show how this works in github or treesource
-			
-			
+				<p>Preparation - please have the following things open:</p>
+				<ul>
+					<li>TotalTerminal (will popup the terminal when needed)</li>
+					<li>GitTraining (<a
+						href="https://github.com/jlgrock/gitTraining">https://github.com/jlgrock/gitTraining</a>)
+					</li>
+				</ul>
+			</div>
 		</div>
-	</div>
-	
-	<div id="patchMode" class="step" data-x="-1500" data-y="-3000">
-		<h3></h3>
-		<div class="notes">
-			<p>git add -p myTestFile.txt -> runs patch mode. Allows us to
-				commit line by line what you are committing. WATCH OUT! This could
-				allow you to commit uncompileable code. y=yes, n=no, s will split
-				by minute?
-		</div>
-	</div>
-	
-	<div id="cloningFromAnotherLocalComputer" class="step" data-x="-3000"
-			data-y="3000">
-			<h3></h3>
+
+		<div id="gitk" class="step" data-x="0" data-y="3000">
+			<h3>gitk</h3>
+			<p>A platform independent gui for viewing commits that will show
+				bisect operations
 			<div class="notes">
+				<p>gitk & #platform independent gui for viewing commits # will
+					show bisect operations
+			</div>
+		</div>
+
+		<div id="findingChanges" class="step" data-x="-3000" data-y="3000">
+			<h2>View Logs from the command line</h2>
+
+			<p>
+				<span class="console">git log --pretty=oneline -3</span>
+			</p>
+			<p>OR</p>
+			<p>
+				<span class="console">git log HEAD~5..HEAD~2</span>
+			</p>
+			<p>OR</p>
+			<p>
+				<span class="console">git whatchanged -p git rebase -i HEAD~n</span>
+			</p>
+
+			<div class="notes">
+				<p>The following shows a few ways to see logs in various
+					formats. The tilde in this case, HEAD~2 means the parents parent.</p>
+			</div>
+		</div>
+
+		<div id="caratAndTilde" class="step" data-x="-3000" data-y="3000">
+			<h2>Great Explanation of Caret and tilde in Git</h2>
+
+			<p>
+				<a href="http://paulboxley.com/blog/2011/06/git-caret-and-tilde">http://paulboxley.com/blog/2011/06/git-caret-and-tilde</a>
+			</p>
+
+			<div class="notes">
+				<p>Go check it out!</p>
+			</div>
+		</div>
+
+
+		<div id="rollingback" class="step">
+			<h2>Rolling Back</h2>
+			<p>
+				<span class="console">git reset HEAD~1</span>
+			</p>
+			<br />
+			<p>
+				<span class="console">git reset --soft HEAD~1</span>
+			</p>
+			<br />
+			<p>
+				<span class="console">git reset --hard HEAD~1</span>
+			</p>
+
+			<div class="notes">
+				<p>ONLY IF YOU HAVEN'T PUSHED</p>
+				<p>This essentially allows the user to remove commits from the
+					stack. Well, technically, it moves the pointer further back on the
+					linked list. This is great if you are just trying to roll back
+					local work. If you've already pushed your changes up to a
+					repository, though, you won't be able to do this. This is because
+					technically you'll be 1 push behind what the repository (even
+					though it was your push). To push, you need to be up to date. So
+					what do we do in this situation? The difference between the "hard"
+					and "soft" version of the reset is that the hard version will
+					truncate the later commits. The soft does not touch the index or
+					working tree at all, but does still move the head pointer. This
+					leaves your files as "changes to be committed" with the "git
+					status" command. The default is actually "mixed" which resets the
+					index, but not the working tree (i.e., the changed files are
+					preserved but not marked for commit).</p>
+			</div>
+		</div>
+
+		<div id="reverting" class="step">
+			<h2>Reverting</h2>
+			<p>
+				<span class="console">git revert HEAD~1</span>
+			</p>
+			<div class="notes">
+				<p>Similar to reset, revert actually goes and finds the changes
+					that were committed, undoes the changes and recommits them. This is
+					different, because it isn't so much like it never happened, as it
+					is a fix to an old commit. This is the only way you can modify
+					commits that you have already pushed.</p>
+			</div>
+		</div>
+
+		<div id="orphanedBranches" class="step">
+			<h3>Creating Orphaned Branches</h3>
+			<p>
+				<span class="console">git checkout --orphan newbranchname</span>
+			</p>
+
+
+			<div class="notes">
+				<p>This is really useful for docs/related materials that has no
+					relation to the code in another branch. This will create new fresh,
+					no content branch. Keeps the current content (staged), just in case
+					you want to add them later.create some files with some changes
+					checked in.</p>
 				<p>
+					To visualize this, go to <a
+						href="https://github.com/jlgrock/ClosureJavascriptFramework">closure
+						tools site</a> and check the gh-pages branch. If you open "gitk all" -
+					note that the new branch has no line to anything, indicating that
+					it is not connected to the current code.
+				</p>
+			</div>
+		</div>
+		<div id="cloningFromFriends" class="step" data-x="-3000" data-y="3000">
+			<h2>Cloning From Friends</h2>
+			<p>
+			<div class="code">
+				<script src="https://gist.github.com/4166800.js?file=gistfile1.txt"></script>
+			</div>
+			</p>
+
+			<div class="notes">
+				<p>So the easiest way to OK, this one is just to get your feet
+					wet and to make sure that everyone remembers how to clone. The
+					easiest way to is to create a shared repository in a shared
+					directory. In the example here, I'm sharing a repository in
+					Dropbox. This has created two repositories. A bare repository,
+					which is used by anyone to check into (please note, it uses file
+					permissions from your OS) and another that you can work on. If
+					anyone else has access to the bare repository, they they can also
+					use this as their repo.</p>
+			</div>
+		</div>
+
+		<div id="anotherwaytocloneFromFriends" class="step" data-x="-3000"
+			data-y="3000">
+			<h2>Another Way To Clone From Friends</h2>
+			<p>
+				<span class="console">cd <repository root>/.git</span>
+			</p>
+			<br />
+			<p>
+				<span class="console">touch git-daemon-export-ok</span>
+			</p>
+			<br />
+			<p>
+				<span class="console">git daemon <repository root>
+					--export-all</span>
+			</p>
+
+			<div class="notes">
+				<p>So sometimes you have a hard time sharing folders on a
+					network. Git comes with a simple tool to share the code much like a
+					server does. This will share the code using the git protocol, which
+					is the most efficient for transferring repositories. However, this
+					enforces no authentication (everything is anonymous), so this is
+					only suggested for a read-only cloning and synchronization.</p>
+			</div>
+		</div>
+
+		<div id="creatingPatches" class="step" data-x="-3000" data-y="3000">
+			<h2>Creating Patches</h2>
+			<p>
+				<span class="console">git format-patch master..Issue54</span>
+			</p>
+
+			<h3>Applying Patches</h3>
+			<p>
+				<span class="console">git am -s 0001-my-fix.patch
+					0002-my-fix.patch</span>
+			</p>
+			<p>OR</p>
+			<p>
+				<span class="console">git am -s 0*</span>
+			</p>
+
+			<div class="notes">
+				<p>First, you need to check to see what you need to create a
+					patch on. You can check the logs using the first methods. The first
+					states to use the pretty formatting to oneline. This helps read the
+					comments better. If you need the entire commit log, leave this flag
+					off. This also states to go back 3 entries in the log. Very useful.
+				</p>
+				<p>Sometimes, you know a range of commits. It was between 3 and
+					5 commits back. Using the second option, this will show all logs in
+					a range. Hopefully, though, you were smart and created a branch for
+					your changes. Yes, I'm going to harp on this, as it is very
+					important and helpful to create branches in Git. Once you know your
+					range, you can give that to the "git format-patch" command. In the
+					example given, it says everything from the point of branching to
+					hte head of Issue54. What git format-patch master does is look at
+					the commits between master and your current branch, in this case
+					Issue54, and create a patch file per commit.</p>
+				<p>Please note that patches are most useful when applying
+					changes from systems other than git.</p>
 			</div>
 		</div>
 
 		<div id="creatingBundles" class="step" data-x="-1500" data-y="3000">
-			<h3></h3>
-			<p>git init --bare cd /my/files/path/ git init git add . git
-				commit -m "initial commit" Create a Bundle --------------- git
-				bundle create ../filename.bundle master git ls-remote
-				filename.bundle - view contents of a file repository so that you can
-				see what to check out git ls-remote https://gihub.com/jlgrock/ -
-				view the contents of a remote repository so that you can see what to
-				check out git ls-remote origin - view the contents of the origin
-				address git fetch filename.bundle refs/heads/master - check out the
-				master branch from this file FETCH_HEAD - only know about this due
-				to response from git (or looking in the .git folder) This is a
-				temporary branch (will not show up in branches) git merge FETCH_HEAD
-				-> merge the current branch with this temporary branch git branch
-				illCheckThisOutLater FETCH_HEAD -> store contents of FETCH_HEAD into
-				illCheckThisOutLater branch git merge -no-ff FETCH_HEAD -> will skip
-				fast forward to guarantee a (Pull requests are just a special kind
-				of branch) --since can also be used if you don't care about a
-				specific version
+			<h2>Bundle</h2>
+			<p>
+				<span class="console">git bundle create repo.bundle master</span>
+			</p>
+
+			<h2>Unbundle</h2>
+			<p>
+				<span class="console">git clone repo.bundle -b master repo</span>
+			</p>
+
 			<div class="notes">
-				<p>Especially useful for one time copies to sil or something
-					like that.
+				<p>Especially useful for one time copies for offline mode.
 			</div>
 		</div>
-		<div id="RemoteCommands" class="step" data-x="-3000" data-y="1500">
-			<h3></h3>
-			git remote -v #"-v" = verbose. Shows the set of tracked repositories.
-			show (possibly on github) how to be show 2 ahead 1 behind git branch
-			-a #shows all of the named branches
+
+		<div id="creatingDeltaBundles" class="step" data-x="-1500"
+			data-y="3000">
+			<h2>Delta Bundle</h2>
+			<p>
+				<span class="console">git bundle create commits.bundle master
+					^9a466c5</span>
+			</p>
+
+			<h2>Verify</h2>
+			<p>
+				<span class="console">git clone repo.bundle -b master repo</span>
+			</p>
+
+			<h2>List Branch heads</h2>
+			<p>
+				<span class="console">git bundle list-heads commits.bundle</span>
+			</p>
+
+			<h2>Fetch from the file</h2>
+			<p>
+				<span class="console">git fetch commits.bundle
+					master:other-master</span>
+			</p>
+
+
 			<div class="notes">
-				<p>http://git-scm.com/book/en/Git-Basics-Tagging
+				<p>If you are creating a delta bundle, please make sure not to
+					just send the changes. There needs to be some common ancestory so
+					that git can line it up. The second command, "git verify", will
+					check it to make sure that it can line up prior to application.</p>
+			</div>
+		</div>
+
+		<div id="aliases" class="step" data-x="-3000" data-y="3000">
+			<h2>Aliasing</h2>
+			<p>
+				<span class="console">git config --global alias.ir "git log
+					rebase -i origin/master"</span>
+			</p>
+			<p>Or edit the .gitconfig directly with</p>
+			<p>
+				<span class="console">git config -e --global</span>
+			</p>
+
+			<div class="notes">
+				<p>Remembering from the git basics, there are three places where
+					you can keep your git config. The first relies in the git install
+					(system - stored in the install dir), the second is for your user
+					(global - in your ~/.gitconfig) and the third is for your project
+					(in the project .git folder). Why would we want to try and figure
+					out all the locations though, right? If we use the git config
+					commands we can add a simple alias (as shown), or edit the config
+					file directly, using git itself.</p>
+			</div>
+		</div>
+
+		<div id="myaliases" class="step" data-x="-3000" data-y="3000">
+			<h2>My Aliasing Examples</h2>
+			<div class="code">
+				<script src="https://gist.github.com/4166800.js?file=gistfile1.txt"></script>
 			</div>
 
-			By default, the git push command doesn’t transfer tags to remote
-			servers. You will have to explicitly push tags to a shared server
-			after you have created them. This process is just like sharing remote
-			branches — you can run git push origin [tagname].
-		</div>
-	<div id="gitkAndgitg" class="step" data-x="0" data-y="3000">
-		<h3></h3>
-		<div class="notes">
-			<p>gitk & #platform independent gui for viewing commits # will
-				show bisect operations
-		</div>
-	</div>
-		
-	<div id="SquashMerge" class="step">
-		<h3></h3>
-		
-		<div class="notes">
-		<p>lookup squash-merge
-		and autosquash (new in 1.7)
-			
-		</div>
-	</div>
-	
-	<div id="EmailDiff" class="step">
-		<h3></h3>
-		
-		<div class="notes">
-		<p>email a diff
-		
-			
-		</div>
-	</div>
-	
-	<div id="GitSVN" class="step">
-		<h3></h3>
-		git-svn clone -s http://example.com/my_subversion_repo local_dir
-		git-svn show-ignore > .gitignore
-		git checkout (locally, it's a git repo)
-		git-svn rebase
-		git-svn dcommit
 			<div class="notes">
-			<p>Now that you know how to use rebase, you can use git svn.  The git svn commands are limited.
+				<p>Just for everyones benefit, I'll walk through a couple useful
+					examples that I have provided, but I hope everyone will go out and
+					start finding their own helpful commands and share them with folks
+					on their teams.</p>
+			</div>
 		</div>
-	</div>
-	
-	<div id="GitSVN" class="step">
-		<h3></h3>
-		Merging - Cherry Pick
-		----------------------
-		"git cherry-pick a5b2ee" -> merge in just one commit (not an entire branch) - this will list this in the change log, but the log will list a sha1, which may never be published.
-		"git cherry-pick a5b2ee..fd341b" -> merge in multiple commits (not an entire branch) with the range
+
+		<div id="aliasesWithUrls" class="step" data-x="-3000" data-y="3000">
+			<h2>Aliasing Urls</h2>
+			<div class="code">
+				<script src="https://gist.github.com/4173827.js?file=gistfile1.txt"></script>
+			</div>
 
 			<div class="notes">
-			<p>Now that you know how to use rebase, you can use git svn.  The git svn commands are limited.
+				<p>Another helpful thing you can do to your config files is to
+					store your more useful urls. Then, you no longer have to remember
+					them.</p>
+			</div>
 		</div>
-	</div>
-	
 
-	<div id="Bisect" class="step">
-		<h3></h3>
-		Create/Use Orphaned Branches
-		----------------------------
-		This is really useful for docs/related materials that has no relation to the code in another branch.
-		
-		git checkout --orphan newbranchname -> create new fresh, no content branch.  Keeps the current content (staged), just in case you want to add them later.
-		create some files with some changes checked in.
-		to visualize, "gitk all" - note that the new branch has no line to anything, indicating that it is not conneted to the current code.
+		<div id="moreOnConfig" class="step" data-x="3000" data-y="-3000">
+			<h3>Refspecs</h3>
+			<div class="code">
+				<script src="https://gist.github.com/4173900.js?file=gistfile1.txt"></script>
+			</div>
 
 			<div class="notes">
-			<p>
-		</div>
-	</div>
-			
-	<div id="Bisect" class="step">
-		<h3></h3>
-		git bisect start
-		git bisect bad
-		git bisect good 128dafd75384f42c2544acd28d432c8abef79878
-		
-		git bisect start #start looking though
-		git bisect bad #mark a point where i know it is bad
-		git bisect good #mark a point where i know it is now good
-		
-		git bisect run mvn test #will run mvn test - will run binary search and record the test status - can narrow it to a single commit that caused the problem
-				
-			<div class="notes">
-			<p>
-		</div>
-	</div>
-	
-	git whatchanged -p
-	
-	git rebase -i HEAD~n
-	
-	<div id="Bisect" class="step">
-		<h3></h3>
-		Transport: Push efficiencies
-		-----------------------------
-		normally, more efficient to push differences
-		what if you want to push an entire repo + history + branches ->
-		
-		git tag -> list tags
-		git branch -> list branches
-		
-		git push --mirror git@github.com:matthewmccullough/mirror1.git -> will push everything in the same way, so /remotes/origin/gh-pages will remain as that full path (problem)
-		
-		git checkout patch-1
-		git help remote
-		git remote remove origin -> severs remote from the origin to help us reattach it later
-		git branch -a
-		git branch -r -> show remote branches
-		
-		if enough branches, this should be run through a script, (something like "git branch -r | sed s/origin/git\ checkout/")
-		Also, this can use any URI, so this can be pushed to a file (e.g. on a thumb drive/cd) for transporting
-			<div class="notes">
-			<p>
-		</div>
-	</div>
-	
-	
-		<div id="Bisect" class="step">
-		<h3></h3>
-			Groups of Remotes
-		------------------
-		git config --global push.default matching
-		vs
-		git config --global push.default simple
-		
-		this means that in the current setup, "git push" (no parameters) will walk through every remote (confusing).
-		Meaning, if you've checked in to a bunch of branches, it will attempt to push them all (even the ones you aren't on).
-		TEST THIS
-		This will change.  Make sure to set this to simple (this will be the default within 6 months)
-		
-		[remote "Dmackenzie"]
-		   url = git://github.com/dmackenzie1/ClosureJavascriptFramework.git
-		   fetch = +refs/heads/*:refs/remotes/Dmackenzie/*
-		
-		[remote "Dmackenzie"]
-		        remote = remote other
-		        url = git://github.com/dmackenzie1/ClosureJavascriptFramework.git
-		        fetch = +refs/heads/*:refs/remotes/Dmackenzie/*
-			<div class="notes">
-			<p>
-		</div>
-	</div>
-	
+				<p>
+				<p>Breakdown:</p>
+				<ul>
+					<li>remote - a definition of a remote server.
+						<ul>
+							<li>url - the location of the remote server</li>
+							<li>fetch - the refspec of branch, which is a tuples of
+								which branches we’d like fetched from the remote repository, and
+								What to call those branches in the local git repository after
+								we’ve fetched them when we use the git fetch and git pull
+								commands. The star is a wildcard, but can only be used at the
+								end of a line.</li>
+						</ul>
+					</li>
+					<li>branch - a definition of a branch.
+						<ul>
+							<li>remote - the remote to use by default</li>
+							<li>merge - the refspec of where to look locally for
+								branches to use when doing a merge operation</li>
+						</ul>
+					</li>
 
-        <div id="Bisect" class="step">
-		<h3></h3>
-			Short Urls/Aliases and username expansion
-		-----------
-		Can add urls to any level global (for companies), local (I know there's a third...)
-		[url "git://github.com"] -> sets the url alias.  If there are duplicates, it's first one wins.
-		    insteadOf = "ghh://" -> (optional parameter) fetch insteadOf - replaces "git://github.com" becomes "ghh://" as an alias
-		    pushInsteadOf = "ghh://" -> (optional parameter) push insteadOf - (same as fetch)
-		
-		example command would be "git clone ghh://mirro1 test".
-		
-		git config contains the following:
-		[core]
-		        repositoryformatversion = 0
-		        filemode = true
-		        logallrefupdates = true
-		[remote "origin"]
-		        url = git@github.com:jlgrock/ClosureJavascriptFramework.git
-		        fetch = +refs/heads/*:refs/remotes/origin/*
-		[branch "master"]
-		        remote = origin
-		        merge = refs/heads/master
-		        remote "Dmackenzie"]
-		        url = git://github.com/dmackenzie1/ClosureJavascriptFramework.git
-		        fetch = +refs/heads/*:refs/remotes/Dmackenzie/*
-		
-		What if I add the following:
-		"fetch = +refs/heads/mm*:refs/remotes/origin/*" -> narrows new downloads to a specific subset
-		can have as many fetch patterns.  also, you can only use "*" wildcard at the end of the line. (Follows refspec - this is why multiple fetches may be necessary).
-		
-		--single-branch useful for a clone, then change to narrow down.  Also, you could do an init to create a new git repo, add to config, then add remote, then fetch
-			<div class="notes">
-			<p>
+				</ul>
+			</div>
 		</div>
-	</div>
-        
-    <div id="AdvancedWorkflows" class="step">
-		<h3>"Advanced Workflows"</h3>
-		<div class="notes">
-			pull and push can be different...
+
+		<div id="moreOnConfig2" class="step" data-x="3000" data-y="-3000">
+			<h3>Refspecs</h3>
+			<div class="code">
+				<script src="https://gist.github.com/4173900.js?file=gistfile1.txt"></script>
+			</div>
+			<p>What if I add the following?</p>
+			<div class="code">
+				<script src="https://gist.github.com/4173903.js?file=gistfile1.txt"></script>
+			</div>
+
+
+			<div class="notes">
+				<p>
+				<p>narrows new downloads to a specific subset can have as many
+					fetch patterns. This is useful if your QA department keeps their
+					code in separate branches and don't care to download all of the
+					branches.</p>
+			</div>
+		</div>
+
+		<div id="cherryPicking" class="step">
+			<h2>Cherry Picking</h2>
+
+			<h3>Cherry Picking a Single Commit</h3>
 			<p>
-	
-			One of the amazing things about Git is that because of its distributed nature and super branching system, you can easily implement pretty much any workflow you can think of relatively easily.
-		Subversion-Style Workflow
-		
-		A very common Git workflow, especially from people transitioning from a centralized system, is a centralized workflow. Git will not allow you to push if someone has pushed since the last time you fetched, so a centralized model where all developers push to the same server works just fine.
-		
-		<!-- workflow-a.png -->
-		Integration Manager Workflow
-		
-		Another common Git workflow is where there is an integration manager—a single person who commits to the 'blessed' repository, and then a number of developers who clone from that repository, push to their own independent repositories and ask the integrator to pull in their changes. This is the type of development model you often see with open source or GitHub repositories.
-		
-		<!-- workflow-b.png -->
-		
-		Dictator and Lieutenants Workflow
-		
-		For more massive projects, you can setup your developers similar to the way the Linux kernel is run, where people are in charge of a specific subsystem of the project ('lieutenants') and merge in all changes that have to do with that subsystem. Then another integrator (the 'dictator') can pull changes from only his/her lieutenants and push those to the 'blessed' repository that everyone then clones from again.
-		
-		<!-- workflow-c.png -->
-		
-		Again, Git is entirely flexible about this, so you can mix and match and choose the workflow that is right for you.
+				<span class="console">git cherry-pick a5b2ee</span>
+			</p>
+
+			<h3>Cherry Picking a Range</h3>
+			<p>
+				<span class="console">git cherry-pick a5b2ee..fd341b</span>
+			</p>
+
+			<div class="notes">
+				<p>Cherry Picking gives the user the ability to grab on or more
+					changes that you determine are necessary, without merging an entire
+					branch. This might be useful, for example, if you have a bug fix
+					that can be applied to the branch you are working on.</p>
+
+				<p>To do this, specify one or more hashes, as found in the log
+					searches aforementioned. Then, make sure you are in the branch you
+					want to merge these changes to and use the "git cherry-pick"
+					command.</p>
+
+
+			</div>
+		</div>
+
+		<div id="squashMerge" class="step">
+			<h3>Squashing a Merge</h3>
+			<p>
+				<span class="console">git merge --squash &lt;branch&gt;</span>
+			</p>
+
+			<div class="notes">
+				<p>A Squash merge is a cool tool that shouldn't be used by
+					everyone, but for the groups that need it, it's invaluable.</p>
+
+				<p>The git merge squash tool combine all of your commits in a
+					branch into one commit and merge it in.</p>
+
+				<p>Although this makes everyone look extremely intelligent,
+					since they were able to knock out things perfectly in one
+					adjustment, or at least so the history would have us believe. The
+					problem is that this destroys the commit history, which can
+					sometimes be invaluable.</p>
+
+				<p>The groups that should use these are the folks that need to
+					make sure that every commit must compile and pass all appropriate
+					tests. You can't always guarantee this, especially if you are
+					changing and applying commits like we all like to code.</p>
+			</div>
+		</div>
+
+		<div id="rewritinghistory" class="step" data-x="-4000" data-y="2000">
+			<h2>Rewriting History</h2>
+			<h3>Rebase Command</h3>
+			<p>
+				<span class="console">git rebase --interactive HEAD~4</span>
+			</p>
+
+			<h3>Understanding a Rebase</h3>
+			<div onclick="">
+				<iframe src="git-rebasing.html" width="800" height="300"></iframe>
+			</div>
+
+
+			<div class="notes">
+				<p>Git is so awesome that it lets you rewrite history.</p>
+				<p>
+					<b>Be warned:</b> <i>It is considered bad practice to rebase
+						commits which you have already pushed to a remote repo. Doing so
+						may invoke the wrath of the git gods.</i>
+				</p>
+
+				<p>
+					The difference between a Merge and a Rebase is that a Merge is the
+					action of taking all the changes in one branch and merge them into
+					another branch in one big commit - a Rebase says I want the point <i>at
+						which I branched</i> to move to a new starting point, meaning that I
+					have to do this step-by-step.
+				</p>
+
+				<p>Rebase allows you to easily change a series of commits,
+					reordering, editing, or squashing commits together into a single
+					commit. By adding the "--interactive" or "-i", you put this into
+					interactive mode, which will make git have you participate in the
+					layering of code changes. This can be skipped, but not until you
+					get the hang of it and really know what you are doing (at which
+					point, you can even set up using "git config
+					branch.autosetuprebase" to always rebase).</p>
+			</div>
+		</div>
+
+		<div id="simpleRebaseAdditions" class="step">
+			<h3>Pick</h3>
+			<p>Adjust the ordering</p>
+
+			<h3>Reword</h3>
+			<p>Adjust the comment on a commit.</p>
+
+			<h3>Edit</h3>
+			<p>Edit a file before applying commit.</p>
+
+			<div class="notes">
+				<p>
+				<p>Pick is used to include a commit. By default you will be
+					given a list of the commits you chose to rebase, in order of oldest
+					(top) to newest (bottom). Rearranging the order of the pick
+					commands will change the order of the commits when you begin the
+					rebase.</p>
+			</div>
+		</div>
+
+		<div id="exampleRebaseAdditions" class="step">
+			<h3>Example Rebase Command</h3>
+			<div class="code">
+				<script src="https://gist.github.com/4173477.js?file=gistfile1.txt"></script>
+			</div>
+
+			<div class="notes">
+				<p>(Remember to click on the image)</p>
+				<p>The following is the example of a rebase command. You can see
+					that it takes the branch commits and layers it ontop of the current
+					branch. At which point, you can apply changes at the same time, and
+					thus rewrite history.</p>
+			</div>
+		</div>
+
+		<div id="squashInRebase" class="step">
+			<h3>Squashing/Fixup Rebase</h3>
+			<div onclick="">
+				<iframe src="git-squashing.html" width="800" height="300"></iframe>
+			</div>
+
+			<div class="notes">
+				<p>This is an example of a squash rebase. Please note that this
+					is different than a squash merge in the regard. Although, it has
+					the same detremental effect on the history.</p>
+			</div>
+		</div>
+
+		<div id="GitSVN" class="step">
+			<h2>Git-SVN Bridge</h2>
+			<h3>Clone</h3>
+			<p>
+				<span class="console">git svn clone -s
+					http://example.com/my_subversion_repo local_dir</span>
+			</p>
+
+			<h3>Updating Your Code (Must Rebase from the Server)</h3>
+			<p>
+				<span class="console">git svn rebase</span>
+			</p>
+
+			<h3>Updating Your Code (git push will fail)</h3>
+			<p>
+				<span class="console">git svn dcommit</span>
+			</p>
+
+			<div class="notes">
+				<p>Now that you know how to use rebase, you can use git-svn.
+					There are a few rules you should follow when using Git as a
+					Subversion client. Many of these are due to the fact that Git is a
+					much more capable system than Subversion and some of the Git
+					features simply do not work in Subversion.</p>
+
+				<p>Do not dcommit Git merge commits to the Subversion
+					repository. Subversion doesn’t handle merges in the same way as
+					Git, and this will cause problems. This means you should keep your
+					Git development history linear (i.e., no merging from other
+					branches, just rebasing).</p>
+
+				<p>Also, same as with git, do not mess with ordering of commits
+					once you have sent it to an external source.</p>
+			</div>
+		</div>
+
+		<div id="patchMode" class="step" data-x="-1500" data-y="-3000">
+			<h3>Adding - Patch Mode</h3>
+			<p>
+				<span class="console">git add -p &lt;filename&gt;</span>
+			</p>
+			<div class="notes">
+				<p>Normally, if we do "git add", it will put the change for both
+					the firstName and lastName into the index. What if we wanted to
+					segregate these out? Well, we could just take a copy of the file,
+					edit out one change, add it, copy the file back, and then add the
+					second change. But we can use Git to help us here with "git add -p"
+				</p>
+				<p>Watch out when using this as you can put your code into an
+					uncompileable state pretty easily.</p>
+				<p>The most useful responses when applying this is "y=yes",
+					"n=no", and "s", which will split by minute of the edit.</p>
+			</div>
+		</div>
+
+		<div id="hooks" class="step">
+			<h3>Commit Related Git Hooks</h3>
+			<ul>
+				<li>pre-commit</li>
+				<li>prepare-commit-msg</li>
+				<li>commit-msg</li>
+				<li>post-commit</li>
+			</ul>
+
+			<h3>Email/Patch Related Git Hooks</h3>
+			<ul>
+				<li>applypatch-msg</li>
+				<li>pre-applypatch</li>
+				<li>post-applypatch</li>
+			</ul>
+
+			<h3>Other Git Hooks</h3>
+			<ul>
+				<li>pre-rebase</li>
+				<li>post-checkout</li>
+				<li>post-merge</li>
+				<li>pre-receive/update <i>(server only)</i></li>
+				<li>post-receive <i>(server only)</i></li>
+			</ul>
+
+			<div class="notes">
+				<p>The hooks are all shell or batch scripts stored in the
+					"hooks" subdirectory of the Git directory. In most projects, that’s
+					".git/hooks". There are a number of samples, each tells you how to
+					use it.</p>
+				<p>hands down, the most useful to developers is going to be the
+					pre-commit, pre-rebase, and post-merge. A good example of one that
+					almost everyone could use here is that you can set a quick script
+					to verify that everything builds and passes test cases as part of
+					your pre-commit, guaranteeing that everything builds according to
+					your unit/integration testing. If there are no problems, it will
+					complete the commit.</p>
+			</div>
+		</div>
+
+		<div id="bisecting" class="step">
+			<h3>Git Bisect</h3>
+
+			<p>
+				<span class="console">git bisect start</span>
+			</p>
+			<br />
+			<p>
+				<i>Can leave out the version if it is the current</i>
+			</p>
+			<p>
+				<span class="console">git bisect bad [bad_commit]</span>
+			</p>
+			<br />
+			<p>
+				<span class="console">git bisect good [good_commit]</span>
+			</p>
+			<br />
+			<p>At which point you tell it</p>
+			<p>
+				<span class="console">git bisect [good/bad]</span>
+			</p>
+
+			<div class="notes">
+				<p>Git Bisect is a powerful tool to find out where something has
+					happened. To do this, you mark a point where things were the way
+					you liked it ("git bisect good") and another where you know it is
+					bad ("git bisect bad"). Then, git will start bisecting, which is a
+					binary search algorithm where you provide the input on the path. By
+					this, I mean, it will pick the middle commit and see if it was bad
+					there. This will give it the direction to go next, picking the
+					middle in the direction indicated by the result.</p>
+				<p>Each time it changes to a new checkout, you are required to
+					tell it whether the current one is good or bad.</p>
+			</div>
+		</div>
+
+		<div id="AdvancedWorkflowsA" class="step">
+			<h3>Workflows - Centralized Workflow</h3>
+
+			<img src="images/workflow-a.png">
+
+			<div class="notes">
+				<p>One of the amazing things about Git is that because of its
+					distributed nature and super branching system, you can easily
+					implement pretty much any workflow you can think of relatively
+					easily.</p>
+
+				<p>As the Centralized Workflow, aka the Subversion-Style
+					Workflow, is very common Git workflow, especially from people
+					transitioning from a centralized system. Git will not allow you to
+					push if someone has pushed since the last time you fetched, so a
+					centralized model where all developers push to the same server
+					works just fine.</p>
+			</div>
+		</div>
+
+		<div id="AdvancedWorkflowsB" class="step">
+			<h3>Workflows - Integration-Manager Workflow</h3>
+			<img src="images/workflow-b.png">
+			<div class="notes">
+				<p>Integration Manager Workflow Another common Git workflow is
+					where there is an integration manager—a single person who commits
+					to the 'blessed' repository, and then a number of developers who
+					clone from that repository, push to their own independent
+					repositories and ask the integrator to pull in their changes. This
+					is the type of development model you often see with open source or
+					GitHub repositories.</p>
+			</div>
+		</div>
+
+		<div id="AdvancedWorkflowsC" class="step">
+			<h3>Workflows - Dictator and Lieutenants Workflow</h3>
+			<img src="images/workflow-c.png">
+			<div class="notes">
+				<p>Dictator and Lieutenants Workflow For more massive projects,
+					you can setup your developers similar to the way the Linux kernel
+					is run, where people are in charge of a specific subsystem of the
+					project ('lieutenants') and merge in all changes that have to do
+					with that subsystem. Then another integrator (the 'dictator') can
+					pull changes from only his/her lieutenants and push those to the
+					'blessed' repository that everyone then clones from again.</p>
+
+				<p>Again, Git is entirely flexible about this, so you can mix
+					and match and choose the workflow that is right for you.</p>
+			</div>
 		</div>
 	</div>
 
-	<div id="bundles">
-	http://blog.ekynoxe.com/2010/11/17/git-sync-via-usb/
-	http://git-scm.com/2010/03/10/bundles.html</div>
-	
-	<div id="moreResources">
-	http://git-scm.com/book/en/Customizing-Git-Git-Hooks
-	
-		look @
-		http://teach.github.com/classnotes/2012-11-02-nfjs-git-workshop1.html
-		
-	</div>
-	
 	<div class="hint">
-		<p>Use a spacebar or arrow keys to navigate</p>
+		<p>Use a arrow keys to navigate, press "N" for notes</p>
 	</div>
 
 	<script src="javascript/impress.js"></script>
@@ -328,6 +748,6 @@
 	<script>
 		impress().init();
 	</script>
+
 </body>
 </html>
-
