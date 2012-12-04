@@ -7,20 +7,20 @@
 
 <html lang='en'>
 <head>
-	<meta charset='utf-8' />
-	<title>Git: Foundations</title>
-	<link href='images/favicon.ico' rel='shortcut icon' type='image/x-icon'>
-	<link rel="stylesheet" href="css/font.css" />
-	<link rel="stylesheet" href="css/default.css" />
-	<link rel="stylesheet" href="css/git-basics.css" />
-	<script type="text/javascript" src="javascript/index-rollover.js"></script>
-	<link href="/wp-content/uploads/2012/11/favicon.ico" rel="icon" type="image/x-icon" />
+<meta charset='utf-8' />
+<title>Git: Foundations</title>
+<link href='images/favicon.ico' rel='shortcut icon' type='image/x-icon'>
+<link rel="stylesheet" href="css/font.css" />
+<link rel="stylesheet" href="css/default.css" />
+<link rel="stylesheet" href="css/git-basics.css" />
+<script type="text/javascript" src="javascript/index-rollover.js"></script>
+<link href="/wp-content/uploads/2012/11/favicon.ico" rel="icon"
+	type="image/x-icon" />
 </head>
 <body class="impress-not-supported">
 	<div id="title" class="step">
 		<h3 class="right">Justin Grant</h3>
-		<div class="notes">
-		</div>
+		<div class="notes"></div>
 	</div>
 
 	<!--
@@ -46,7 +46,8 @@
 				</div>
 				<div id="title-text">
 					<h1 class="title-text-major">Foundations</h1>
-					<span class="title-text-minor"><i>Presenter: Justin Grant</i></span>
+					<span class="title-text-minor"><i>Presenter: Justin
+							Grant</i></span>
 				</div>
 			</div>
 			<div class="notes">
@@ -298,8 +299,6 @@
 					Run the "git clone command" with the url provided on this page.
 			</div>
 		</div>
-
-
 
 		<div id="differentEnvironmentsOnTheSameMachine" class="step"
 			data-x="-1500" data-y="1500" data-rotate="180" data-z="-100">
@@ -565,7 +564,8 @@
 			</div>
 		</div>
 
-		<div id="WorkingWithRemotes" class="step" data-x="-3000" data-y="1500" data-rotate="60">
+		<div id="WorkingWithRemotes" class="step" data-x="-3000" data-y="1500"
+			data-rotate="60">
 			<h1>Working With Remotes</h1>
 			<div class="horizontal-center">
 				<img alt="Local/Remote Repositories"
@@ -656,7 +656,8 @@
 			</div>
 		</div>
 
-		<div id="Stashing" class="step" data-x="-6000" data-y="6000" data-rotate="180" data-z="-40">
+		<div id="Stashing" class="step" data-x="-6000" data-y="6000"
+			data-rotate="180" data-z="-40">
 			<h2>Stashing</h2>
 			<p>
 				<span class="console">git stash</span>
@@ -693,8 +694,35 @@
 			</div>
 		</div>
 
+		<div id="cachingCredentials" class="step" data-x="-8000"
+			data-y="8000" data-scale="2" data-z="20" rotate-z="90" rotate-x="90">
+			<h2>Caching Your Credentials</h2>
+			<p>
+				<span class="console">git config --global credential.helper
+					osxkeychain</span>
+			</p>
+			<p>OR</p>
+			<p>
+				<span class="console">git config --global credential.helper
+					cache</span>
+			</p>
+			<br />
+			<h2>More Information</h2>
+			<p>
+				<a href="http://www.sixfeetup.com/blog/git-credential-helpers">http://www.sixfeetup.com/blog/git-credential-helpers</a>
+			</p>
 
-		<div id="CommonTools" class="step" data-x="-6000" data-y="6000" data-z="-100">
+			<div class="notes">
+				<p>One of the reasons that I mentioned that you should update to
+					1.8+ is that this is the first time that all of the different
+					versions (Windows/Mac/Linux/Unix) have implemented the new
+					Credential API. Enabling this will allow you to store your password
+					in the store that makes sense for your OS.</p>
+			</div>
+		</div>
+
+		<div id="CommonTools" class="step" data-x="-6000" data-y="6000"
+			data-z="-100">
 			<h2>Common Tools for Git</h2>
 			<ul>
 				<li>Supported by all major IDEs (<a
