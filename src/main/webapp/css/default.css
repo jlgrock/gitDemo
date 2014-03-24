@@ -15,27 +15,17 @@ body {
 
 .nav-button-img-overlay {
 	color: black;
-	float: left;
+	display: inline-block;
 	border-radius: 20px;
 	-moz-border-radius: 20px;
 	-webkit-border-radius: 20px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-/* This is always off-centered */
-.nav-center-outer {
-	position: absolute;
-	float: left;
-	vertical-align: middle;
-	left: 50%;
-	top: 50%;
-}
-
-.nav-center-inner {
-	white-space: nowrap;
-	float: left;
-	position: relative;
-	left: -50%;
-	top: -164px;
+.nav-center {
+	text-align: center;
+	margin-top: calc(20% - 50px);
 }
 
 .nav-button {
